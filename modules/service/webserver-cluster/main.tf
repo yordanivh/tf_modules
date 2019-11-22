@@ -26,7 +26,7 @@ data "template_file" "user_data" {
   }
 }
 
-terraform {
+/*terraform {
 
   backend "s3" {
     key            = "stage/services/webserver-cluster/terraform.tfstate"
@@ -35,7 +35,7 @@ terraform {
     dynamodb_table = "terraform-up-and-running-locks"
     encrypt        = true
   }
-} 
+} */
 #configuration of each instance that is created with ASG
 resource "aws_launch_configuration" "example" {
   image_id        = "ami-0d5d9d301c853a04a"
