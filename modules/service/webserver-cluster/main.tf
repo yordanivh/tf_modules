@@ -6,7 +6,7 @@ data "aws_subnet_ids" "default" {
   vpc_id = data.aws_vpc.default.id
 }
 
- data "terraform_remote_state" "db" {
+/* data "terraform_remote_state" "db" {
   backend = "s3"
 
   config = {
@@ -14,19 +14,19 @@ data "aws_subnet_ids" "default" {
     key    = var.db_remote_state_key
     region = "us-east-2"
   }
-} 
+} */
 
-data "template_file" "user_data" {
+/* data "template_file" "user_data" {
   template = file("${path.module}/user-data.sh")
 
   vars = {
     server_port = var.server_port
-    db_address  = data.terraform_remote_state.db.outputs.address
-    db_port     = data.terraform_remote_state.db.outputs.port
+    #db_address  = data.terraform_remote_state.db.outputs.address
+    #db_port     = data.terraform_remote_state.db.outputs.port
   }
-}
+} */
 
-terraform {
+/*terraform {
 
   backend "s3" {
     key            = "stage/services/webserver-cluster/terraform.tfstate"
@@ -35,13 +35,13 @@ terraform {
     dynamodb_table = "terraform-up-and-running-locks"
     encrypt        = true
   }
-} 
+}*/
 #configuration of each instance that is created with ASG
 resource "aws_launch_configuration" "example" {
   image_id        = "ami-0d5d9d301c853a04a"
   instance_type   = var.instance_type
   security_groups = [aws_security_group.instance.id]
-  user_data       = data.template_file.user_data.rendered
+  #user_data       = data.template_file.user_data.rendered
 
   lifecycle {
     create_before_destroy = true
@@ -63,6 +63,15 @@ resource "aws_autoscaling_group" "example" {
     key                 = "Name"
     value               = "${var.cluster_name}-example"
     propagate_at_launch = true
+  }
+  dynamic "tag" {
+    for_each = var.custom_tags
+
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
   }
 }
 #security group for each instance
