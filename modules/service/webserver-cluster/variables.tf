@@ -39,3 +39,8 @@ variable "custom_tags" {
   type        = map(string)
   default     = {}
 }
+#Conditionals
+variable "enable_autoscaling" {
+  description = "If set to true, enable autos caling"
+  type        = bool
+}
