@@ -6,7 +6,7 @@ data "aws_subnet_ids" "default" {
   vpc_id = data.aws_vpc.default.id
 }
 
-/* data "terraform_remote_state" "db" {
+/*data "terraform_remote_state" "db" {
   backend = "s3"
 
   config = {
@@ -31,6 +31,7 @@ data "template_file" "user_data" {
 /*data "template_file" "user_data_new" {
   count = var.enable_new_user_data ? 1 : 0
 
+
   template = file("${path.module}/user-data-new.sh")
 
   vars = {
@@ -38,6 +39,7 @@ data "template_file" "user_data" {
   }
 }
 */
+
 /*terraform {
 
   backend "s3" {
@@ -47,7 +49,9 @@ data "template_file" "user_data" {
     dynamodb_table = "terraform-up-and-running-locks"
     encrypt        = true
   }
-}*/
+
+} */
+
 #configuration of each instance that is created with ASG
 resource "aws_launch_configuration" "example" {
   image_id        = var.ami
