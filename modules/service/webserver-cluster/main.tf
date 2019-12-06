@@ -16,7 +16,7 @@ data "aws_subnet_ids" "default" {
   }
 } */
 
-data "template_file" "user_data" {
+/*data "template_file" "user_data" {
   #count = var.enable_new_user_data ? 0 : 1
 
   template = file("${path.module}/user-data.sh")
@@ -27,7 +27,7 @@ data "template_file" "user_data" {
     #db_address  = data.terraform_remote_state.db.outputs.address
     #db_port     = data.terraform_remote_state.db.outputs.port
   }
-}
+}*/
 /*data "template_file" "user_data_new" {
   count = var.enable_new_user_data ? 1 : 0
 
